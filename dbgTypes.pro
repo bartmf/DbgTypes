@@ -17,10 +17,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    dbgtypes.cpp
+    dbgtypes.cpp \
+    exceprions/overflowexception.cpp \
+    types/dbgfloat.cpp
 
 HEADERS += \
-    dbgtypes.h
+    dbgtypes.h \
+    exceprions/overflowexception.h \
+    types/dbgfloat.h
 
 # Default rules for deployment.
 unix {
