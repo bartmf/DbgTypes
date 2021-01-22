@@ -10,7 +10,7 @@ private:
     float f_num;
     static float statf_globalCount;
     float f_localCount = __FLT_MAX__;
-    std::string s_Exception = "Переполнение типа float по глобальному пределу.\nСтрочка: ";
+    std::string s_Exception = "";
 
 public:
     DbgFloat ();
@@ -22,7 +22,7 @@ public:
     float getLocalCount();
     float getNum();
     operator float() const;
-    DbgFloat operator + (const DbgFloat num2);
+    DbgFloat operator + (DbgFloat &num2);
     DbgFloat operator - (DbgFloat &num2);
     DbgFloat operator * (DbgFloat &num2);
     DbgFloat operator / (DbgFloat &num2);

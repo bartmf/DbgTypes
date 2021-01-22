@@ -46,10 +46,14 @@ float DbgFloat::getNum()
     return f_num;
 }
 
-DbgFloat DbgFloat::operator +(DbgFloat f_num2) // доработать проверку на переполнение
+DbgFloat DbgFloat::operator +(DbgFloat &f_num2) // доработать проверку на переполнение
 {
+    double temp = f_num + f_num2.getNum();
+    if(temp > statf_globalCount || temp < (statf_globalCount + 1.0) * (-1.0)){
+        throw OverflowException("Переполнение при сложении", __LINE__, __FILE__);
+    }
 
-    if  ((f_num>0 && f_num2>0 && f_num > statf_globalCount - f_num2)
+    /*if  ((f_num>0 && f_num2>0 && f_num > statf_globalCount - f_num2)
 
          || (f_num < 0 && f_num2 < 0 && f_num < (((statf_globalCount + 1) * (-1)) - f_num2))){
         s_Exception.append(1, __LINE__);
@@ -60,14 +64,15 @@ DbgFloat DbgFloat::operator +(DbgFloat f_num2) // доработать пров�
 
         throw OverflowException (s_Exception);
     }
+    */
     return f_num + f_num2;
 }
 
 DbgFloat DbgFloat::operator - (DbgFloat &f_num2) // доработать проверку на переполнение
 {
-    if((f_num < 0 && f_num2.getNum() > 0 && f_num < f_num < (((statf_globalCount + 1) * (-1)) - f_num2.getNum()))
-            || (f_num > 0 && f_num2.getNum() < 0 && f_num2.getNum() < (((statf_globalCount + 1) * (-1)) - f_num))){
-        throw OverflowException("Переполнение при вычитании");
+    double temp = f_num - f_num2.getNum();
+    if(temp > statf_globalCount || temp < (statf_globalCount + 1.0) * (-1.0)){
+        throw OverflowException("Переполнение при разности", __LINE__, __FILE__);
     }
     return f_num - f_num2.getNum();
 }
@@ -75,8 +80,8 @@ DbgFloat DbgFloat::operator - (DbgFloat &f_num2) // доработать про�
 DbgFloat DbgFloat::operator *(DbgFloat &f_num2) // доработать проверку на переполнение
 {
     double temp = f_num * f_num2;
-    if(temp > statf_globalCount){
-        throw OverflowException("Переполнение при умножении");
+    if(temp > statf_globalCount || temp < (statf_globalCount + 1.0) * (-1.0)){
+        throw OverflowException("Переполнение при умножении", __LINE__, __FILE__);
     }
     return f_num * f_num2;
 }
@@ -84,14 +89,17 @@ DbgFloat DbgFloat::operator *(DbgFloat &f_num2) // доработать пров
 DbgFloat DbgFloat::operator /(DbgFloat &f_num2) // доработать проверку на переполнение
 {
     double temp = f_num / f_num2;
-    if((temp > 0 && temp > statf_globalCount) || (temp < 0 && temp < statf_globalCount)){
-        throw OverflowException("Переполнение при делении");
+    if((temp > statf_globalCount) || ( temp < ((statf_globalCount + 1.0) * (-1.0)))){
+        throw OverflowException("Переполнение при делении", __LINE__, __FILE__);
     }
     return f_num / f_num2;
 }
 
-DbgFloat DbgFloat::operator = (DbgFloat f_num2) //доработать проверку на переполнение
+DbgFloat DbgFloat::operator =(DbgFloat f_num2) //доработать проверку на переполнение
 {
+    if(f_num2 > statf_globalCount || f_num2 < ((statf_globalCount + 1.0) * (-1.0))){
+        throw OverflowException("Переполнение при присвоении", __LINE__, __FILE__);
+    }
     setNum(f_num2);
     return f_num;
 }
